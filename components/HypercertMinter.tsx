@@ -1,3 +1,4 @@
+"use client";
 import {
   Heading,
   HStack,
@@ -21,6 +22,7 @@ import { TransactionReceipt } from "viem";
 import { parseEther } from "viem/utils";
 import { useAccount, usePublicClient } from "wagmi";
 import { DateTime } from "luxon";
+import { useAutoConnect } from "@/hooks/useAutoConnect";
 
 const formValuesToHypercertMetadata = (
   values: MintingFormValues,
@@ -88,6 +90,8 @@ export const HypercertMinter = ({
   const { onOpen, setStep, onClose } = useInteractionModal();
   const { address, isConnected } = useAccount();
   const publicClient = usePublicClient();
+
+  useAutoConnect();
 
   const [previewImageSrc, setPreviewImageSrc] = useState<string | undefined>(
     undefined

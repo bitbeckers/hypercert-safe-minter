@@ -15,15 +15,15 @@ const chains = [sepolia, optimism, celo];
 const wagmiConfig = createConfig(
   getDefaultConfig({
     autoConnect: false,
-    connectors: {
-      safe: new SafeConnector({
+    connectors: [
+      new SafeConnector({
         chains,
         options: {
           allowedDomains: [/app.safe.global$/],
           debug: false,
         },
       }),
-    },
+    ],
     // Required API Keys
     alchemyId: assertExists(
       process.env.NEXT_PUBLIC_ALCHEMY_ID,
