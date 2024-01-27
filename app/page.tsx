@@ -1,7 +1,6 @@
 "use client";
-import { Link } from "@chakra-ui/next-js";
-import Image from "next/image";
-import { Box, Flex, Heading, Spacer, Text } from "@chakra-ui/react";
+import { Box, Flex, Spacer, Text } from "@chakra-ui/react";
+import { HypercertMinter } from "@/components/HypercertMinter";
 import { ConnectKitButton } from "connectkit";
 import { useAccount } from "wagmi";
 import { useAutoConnect } from "@/hooks/useAutoConnect";
@@ -53,7 +52,9 @@ export default function Home() {
           p={4}
           bgColor={"rgba(49, 74, 62, 0.5)"}
         >
-          <Text>Very Proof of Concept</Text>
+          <Text>
+            Very PoC, use at own risk. This is a demo app for the Hypercert SDK and VoiceDeck
+          </Text>
         </Box>
         <Spacer />
         <ConnectKitButton />
@@ -64,18 +65,9 @@ export default function Home() {
         w={"100%"}
         justifyContent={"center"}
         alignItems={"center"}
+        p={"5rem"}
       >
-        <Image
-          src="/hypercerts_logo_yellow.png"
-          alt="Hypercerts Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <Link href="/mint" target="_blank" rel="noopener noreferrer">
-          <Heading>Mint</Heading>
-          <Text>Start minting hypercerts</Text>
-        </Link>
+        <HypercertMinter />
       </Flex>
     </Flex>
   );
