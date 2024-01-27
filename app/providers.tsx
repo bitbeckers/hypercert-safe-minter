@@ -7,11 +7,23 @@ import theme from "./theme";
 import { sepolia, optimism, celo } from "wagmi/chains";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 
+import { SafeConnector } from "wagmi/connectors/safe";
+
 const chains = [sepolia, optimism, celo];
 
 // See: https://docs.family.co/connectkit/getting-started#getting-started-section-3-implementation
 const wagmiConfig = createConfig(
   getDefaultConfig({
+    autoConnect: false,
+    connectors: {
+      safe: new SafeConnector({
+        chains,
+        options: {
+          allowedDomains: [/app.safe.global$/],
+          debug: false,
+        },
+      }),
+    },
     // Required API Keys
     alchemyId: assertExists(
       process.env.NEXT_PUBLIC_ALCHEMY_ID,

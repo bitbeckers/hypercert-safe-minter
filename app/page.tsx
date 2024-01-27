@@ -1,11 +1,11 @@
 "use client";
-import { Link } from "@chakra-ui/next-js";
-import Image from "next/image";
 import { Box, Flex, Heading, Spacer, Text } from "@chakra-ui/react";
-import ClientInfo from "../components/ClientInfo";
+import { HypercertMinter } from "@/components/HypercertMinter";
 import { ConnectKitButton } from "connectkit";
+import { useAutoConnect } from "@/hooks/useAutoConnect";
 
 export default function Home() {
+  useAutoConnect();
   return (
     <Flex
       direction={"column"}
@@ -37,87 +37,9 @@ export default function Home() {
         w={"100%"}
         justifyContent={"center"}
         alignItems={"center"}
+        p={"5rem"}
       >
-        <Image
-          src="/hypercerts_logo_yellow.png"
-          alt="Hypercerts Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <ClientInfo />
-      </Flex>
-
-      <Flex
-        direction={"row"}
-        p={"2em"}
-        justifyContent={"space-around"}
-        alignItems={"center"}
-      >
-        <Box
-          w="sm"
-          h="3xs"
-          borderWidth="2px"
-          borderRadius="lg"
-          p={4}
-          margin={"auto"}
-          bgColor={"rgba(49, 74, 62, 0.5)"}
-        >
-          <Link
-            href="https://hypercerts.org/docs/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Heading>
-              Docs <span>-&gt;</span>
-            </Heading>
-            <Text>
-              Find in-depth information about Hypercerts features and API.
-            </Text>
-          </Link>
-        </Box>
-
-        <Box
-          w="sm"
-          h="3xs"
-          borderWidth="2px"
-          borderRadius="lg"
-          p={4}
-          margin={"auto"}
-          bgColor={"rgba(49, 74, 62, 0.5)"}
-        >
-          <Link
-            href="https://github.com/hypercerts-org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Heading>
-              Code <span>-&gt;</span>
-            </Heading>
-            <p>Dive into the hypercerts repositories</p>
-          </Link>
-        </Box>
-
-        <Box
-          w="sm"
-          h="3xs"
-          borderWidth="2px"
-          borderRadius="lg"
-          p={4}
-          margin={"auto"}
-          bgColor={"rgba(49, 74, 62, 0.5)"}
-        >
-          <Link
-            href="https://github.com/hypercerts-org/demo-apps"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Heading>
-              Example apps <span>-&gt;</span>
-            </Heading>
-            <p>Explore starter templates for Hypercerts</p>
-          </Link>
-        </Box>
+        <HypercertMinter />
       </Flex>
     </Flex>
   );
