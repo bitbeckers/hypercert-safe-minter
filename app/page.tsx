@@ -208,8 +208,8 @@ export default function Home() {
         alignItems={"center"}
         p={"5rem"}
       >
-        <MintHypercerts data={data} />
         <MetadataUploader data={metadata} onUpload={setCids} />
+        {cids && cids.length > 0 && <MintHypercerts data={data} />}
         <DataTable columns={columns} data={data} />
       </Flex>
     </Flex>
