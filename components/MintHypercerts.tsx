@@ -17,7 +17,6 @@ import { set } from "zod";
 
 export type MintHypercertProps = {
   data: MintData[];
-  onUpload: (txHashes: Hex[]) => void;
 };
 
 export function MintHypercerts({ data }: MintHypercertProps) {
