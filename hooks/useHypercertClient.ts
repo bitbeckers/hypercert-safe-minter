@@ -1,5 +1,5 @@
 "use client";
-import { HypercertClient } from "@hypercerts-org/sdk";
+import { HypercertClient, SupportedChainIds } from "@hypercerts-org/sdk";
 import { useMemo } from "react";
 import { useChainId, useWalletClient } from "wagmi";
 
@@ -23,5 +23,10 @@ export const useHypercertClient = () => {
     [chainId, walletClient]
   );
 
-  return { client };
+  return {
+    client,
+    chainId: isSupportedChain(chainId)
+      ? (chainId as SupportedChainIds)
+      : undefined,
+  };
 };

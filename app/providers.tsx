@@ -8,6 +8,7 @@ import { sepolia, optimism, celo } from "wagmi/chains";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 
 import { SafeConnector } from "wagmi/connectors/safe";
+import SafeProvider from "@safe-global/safe-apps-react-sdk";
 
 const chains = [sepolia, optimism, celo];
 
@@ -50,7 +51,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ChakraProvider theme={theme}>
       <WagmiConfig config={wagmiConfig}>
-        <ConnectKitProvider>{children}</ConnectKitProvider>
+        <ConnectKitProvider>
+          <SafeProvider>{children}</SafeProvider>
+        </ConnectKitProvider>
       </WagmiConfig>
     </ChakraProvider>
   );

@@ -11,6 +11,7 @@ import { HypercertMetadata } from "@hypercerts-org/sdk";
 import { DateTime } from "luxon";
 import { DataTable } from "@/components/DataTable";
 import { MetadataUploader } from "@/components/MetadataUploader";
+import { MintHypercerts } from "@/components/MintHypercerts";
 
 const VD_REPORTS_ENDPOINT = "https://directus.vd-dev.org/items/reports";
 
@@ -172,8 +173,6 @@ export default function Home() {
           <Spacer />
           <ConnectKitButton />
         </Flex>
-        <MetadataUploader data={metadata} onUpload={setCids} />
-        <DataTable columns={columns} data={data} />
       </Flex>
     );
   }
@@ -209,7 +208,9 @@ export default function Home() {
         alignItems={"center"}
         p={"5rem"}
       >
-        <HypercertMinter />
+        <MintHypercerts data={data} />
+        <MetadataUploader data={metadata} onUpload={setCids} />
+        <DataTable columns={columns} data={data} />
       </Flex>
     </Flex>
   );

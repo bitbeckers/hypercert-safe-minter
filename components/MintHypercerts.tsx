@@ -1,36 +1,79 @@
 import { MintData } from "@/app/page";
 import { useHypercertClient } from "@/hooks/useHypercertClient";
 import { Button, Flex } from "@chakra-ui/react";
-import { HypercertMetadata } from "@hypercerts-org/sdk";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Hex, encodeFunctionData, parseEther } from "viem";
+import { useEthersAdapter } from "@/hooks/useEthersAdapter";
+import {
+  MetaTransactionData,
+  OperationType,
+} from "@safe-global/safe-core-sdk-types";
+import Safe from "@safe-global/protocol-kit";
+import { useChainId } from "wagmi";
+import { HypercertMinterAbi } from "@hypercerts-org/sdk";
+import { useSafeAppsSDK } from "@safe-global/safe-apps-react-sdk";
+import { metadata } from "@/app/layout";
+import { set } from "zod";
 
 export type MintHypercertProps = {
   data: MintData[];
-  onUpload: (cids: string[]) => void;
+  onUpload: (txHashes: Hex[]) => void;
 };
 
-export function MetadataUploader({ data, onUpload }: MintHypercertProps) {
-  const { client } = useHypercertClient();
-  const [isUploading, setIsUploading] = useState(false);
+export function MintHypercerts({ data }: MintHypercertProps) {
+  const [isMinting, setIsMinting] = useState(false);
+  const { client, chainId } = useHypercertClient();
 
-  const uploadMetadata = async () => {
-    if (client) {
-      setIsUploading(true);
-      Promise.all(
-        data.map((metadata) =>
-          client?.storage.storeMetadata(metadata as HypercertMetadata)
-        )
-      )
-        .then((res) => {
-          console.log(res);
-          onUpload(res);
-          setIsUploading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setIsUploading(false);
-        });
+  const { sdk, connected, safe } = useSafeAppsSDK();
+
+  console.log("Connected: ", connected);
+
+  const filterCids = data.map((d) => d.cid).filter((e) => String(e).trim());
+
+  const encodeMintClaim = ({ metadata }: { metadata: string }) => {
+    // function mintClaim(address account, uint256 units, string memory _uri, TransferRestrictions restrictions)
+
+    return encodeFunctionData({
+      abi: HypercertMinterAbi,
+      functionName: "mintClaim",
+      args: [safe.safeAddress, parseEther("1"), metadata, 0],
+    });
+  };
+
+  const createBatchTransactions = async () => {
+    setIsMinting(true);
+    if (!chainId) {
+      console.log("Chain ID not supported");
+      setIsMinting(false);
+      return;
     }
+
+    const to = client?.getDeployment(chainId).addresses?.HypercertMinterUUPS;
+
+    if (!to) {
+      console.log("HypercertMinterUUPS address not found");
+      setIsMinting(false);
+      return;
+    }
+
+    const operation = OperationType.Call;
+    const value = "0";
+
+    const transactions = filterCids.map((cid) => {
+      const data: MetaTransactionData = {
+        to,
+        operation,
+        value,
+        data: encodeMintClaim({ metadata: cid }),
+      };
+
+      return data;
+    });
+
+    const res = await sdk.txs.send({ txs: transactions });
+
+    console.log("TXS: ", res);
+    setIsMinting(false);
   };
 
   return (
@@ -44,10 +87,11 @@ export function MetadataUploader({ data, onUpload }: MintHypercertProps) {
       <Button
         colorScheme="teal"
         size="lg"
-        onClick={uploadMetadata}
-        isLoading={isUploading}
+        onClick={createBatchTransactions}
+        isLoading={isMinting}
+        isDisabled={filterCids.length === 0}
       >
-        Upload Metadata
+        Mint Hypercert
       </Button>
     </Flex>
   );
