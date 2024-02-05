@@ -1,19 +1,14 @@
 import { MintData } from "@/app/page";
 import { useHypercertClient } from "@/hooks/useHypercertClient";
 import { Button, Flex } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { Hex, encodeFunctionData, parseEther } from "viem";
-import { useEthersAdapter } from "@/hooks/useEthersAdapter";
+import { useState } from "react";
+import { encodeFunctionData, parseEther } from "viem";
 import {
   MetaTransactionData,
   OperationType,
 } from "@safe-global/safe-core-sdk-types";
-import Safe from "@safe-global/protocol-kit";
-import { useChainId } from "wagmi";
 import { HypercertMinterAbi } from "@hypercerts-org/sdk";
 import { useSafeAppsSDK } from "@safe-global/safe-apps-react-sdk";
-import { metadata } from "@/app/layout";
-import { set } from "zod";
 
 export type MintHypercertProps = {
   data: MintData[];
