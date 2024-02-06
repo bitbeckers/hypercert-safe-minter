@@ -47,6 +47,7 @@ export default function Home() {
 
   const [metadata, setMetadata] = useState<HypercertMetadata[]>([]);
   const [cids, setCids] = useState<string[]>([]);
+  const [claimIDS, setClaimIDS] = useState<string[]>([]);
 
   const [data, setData] = useState<MintData[]>([]);
 

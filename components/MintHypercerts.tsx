@@ -64,9 +64,11 @@ export function MintHypercerts({ data }: MintHypercertProps) {
       return data;
     });
 
+    console.log("TXS: ", transactions);
+
     const res = await sdk.txs.send({ txs: transactions });
 
-    console.log("TXS: ", res);
+    console.log("Submitted txs: ", res);
     setIsMinting(false);
   };
 
