@@ -13,7 +13,7 @@ import { DataTable } from "@/components/DataTable";
 import { MetadataUploader } from "@/components/MetadataUploader";
 import { MintHypercerts } from "@/components/MintHypercerts";
 
-const VD_REPORTS_ENDPOINT = "https://directus.vd-dev.org/items/reports";
+const VD_REPORTS_ENDPOINT = "https://directus.vd-dev.org/";
 
 interface Report {
   title: string | null;
@@ -38,6 +38,7 @@ interface Report {
   date_updated: string | null;
   byline: string | null;
   total_cost: string | null;
+  hypercert_id: string | null;
 }
 
 export type MintData = HypercertMetadata & { cid: string };
