@@ -1,4 +1,3 @@
-import { MintData } from "@/app/page";
 import { useHypercertClient } from "@/hooks/useHypercertClient";
 import { Button, Flex } from "@chakra-ui/react";
 import { useState } from "react";
@@ -9,6 +8,7 @@ import {
 } from "@safe-global/safe-core-sdk-types";
 import { HypercertMinterAbi } from "@hypercerts-org/sdk";
 import { useSafeAppsSDK } from "@safe-global/safe-apps-react-sdk";
+import {MintData} from "@/components/MintPage";
 
 export type MintHypercertProps = {
   data: MintData[];

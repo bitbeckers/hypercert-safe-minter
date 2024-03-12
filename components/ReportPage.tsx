@@ -1,13 +1,9 @@
 import {Flex} from "@chakra-ui/react";
-import {MetadataUploader} from "@/components/MetadataUploader";
-import {MintHypercerts} from "@/components/MintHypercerts";
 import {DataTable} from "@/components/DataTable";
 import {useEffect, useState} from "react";
-import {HypercertMetadata, getFromIPFS} from "@hypercerts-org/sdk";
+import {HypercertMetadata, getFromIPFS, validateMetaData} from "@hypercerts-org/sdk";
 import {createColumnHelper} from "@tanstack/react-table";
-import {fetchReports, transformToHypercertData, Report} from "vd2hc";
-import {DateTime} from "luxon";
-import {useFetchClaimsForAccount} from "@/hooks/useFetchClaimsForAccount";
+import {useFetchFractionsForAccount} from "@/hooks/useFetchFractionsForAccount";
 import {CreateOrderButton} from "@/components/CreateOrderButton";
 
 type ClaimData = {
@@ -16,26 +12,35 @@ type ClaimData = {
     tokenID: string;
     hypercert: HypercertMetadata;
 }
+
 export const ReportPage = () => {
-    const {claims, isLoading} = useFetchClaimsForAccount();
+    const {fractions, isLoading} = useFetchFractionsForAccount();
     const [data, setData] = useState<ClaimData[]>([]);
+
+    console.log(fractions);
 
     useEffect(() => {
         const fetchDataForClaims = async () => {
-            const hypercerts = await Promise.all(claims.claims.map(async (claim) => {
+            if (!fractions) return;
+            const hypercerts = await Promise.all(fractions.map(async (fraction: any) => {
+                const metadata = await getFromIPFS(fraction?.claim.uri).then((res) => validateMetaData(res) ? res as HypercertMetadata : null);
+
+                if (!metadata) return null;
+
                 return {
-                    id: claim.id,
-                    cid: claim.uri,
-                    tokenID: claim.tokenID,
-                    hypercert: await getFromIPFS(claim.uri),
+                    id: fraction?.claim.id,
+                    cid: fraction?.claim.uri,
+                    tokenID: fraction?.tokenID,
+                    hypercert: metadata
                 };
-            }));
+            })).then((res) => res.flatMap((r) => r ? [r] as ClaimData[] : []));
+
             setData(hypercerts);
         }
-        if (claims && claims?.claims && claims.claims.length > 0) {
+        if (fractions && fractions.length > 0) {
             fetchDataForClaims()
         }
-    }, [claims]);
+    }, [fractions]);
 
     if (isLoading) return (<Flex direction={"column"}
                                  w={"100%"}
@@ -43,16 +48,13 @@ export const ReportPage = () => {
                                  alignItems={"center"}
                                  p={"5rem"}>Loading...</Flex>)
 
-    if (!claims || claims.length === 0) return (<Flex direction={"column"}
-                                                      w={"100%"}
-                                                      justifyContent={"center"}
-                                                      alignItems={"center"}
-                                                      p={"5rem"}>No claims found, are you connected?</Flex>)
+    if (!fractions || fractions.length === 0) return (<Flex direction={"column"}
+                                                            w={"100%"}
+                                                            justifyContent={"center"}
+                                                            alignItems={"center"}
+                                                            p={"5rem"}>No claims found, are you connected?</Flex>)
 
     const columnHelper = createColumnHelper<ClaimData>();
-
-    console.log(claims);
-    console.log(data);
 
     const columns = [
         columnHelper.group({

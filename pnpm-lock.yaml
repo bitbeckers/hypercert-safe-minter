@@ -27,8 +27,8 @@ dependencies:
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.42)(react@18.2.0)
   '@hypercerts-org/marketplace-sdk':
-    specifier: ^0.0.23
-    version: 0.0.23(ethers@6.9.0)(react@18.2.0)(typescript@5.3.2)(zod@3.22.4)
+    specifier: ^0.0.24
+    version: 0.0.24(ethers@6.9.0)(react@18.2.0)(typescript@5.3.2)(zod@3.22.4)
   '@hypercerts-org/sdk':
     specifier: 1.4.2-alpha.2
     version: 1.4.2-alpha.2(react@18.2.0)(typescript@5.3.2)(zod@3.22.4)
@@ -2369,8 +2369,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@hypercerts-org/marketplace-sdk@0.0.23(ethers@6.9.0)(react@18.2.0)(typescript@5.3.2)(zod@3.22.4):
-    resolution: {integrity: sha512-9I7F/waSMxUtvzjzaaEM/2YOpR2y54jdCjTLQutFr5sr8TbqRqIvFpJ4emLB4ri6DadLgHDFGrQCHqSL31jKxw==}
+  /@hypercerts-org/marketplace-sdk@0.0.24(ethers@6.9.0)(react@18.2.0)(typescript@5.3.2)(zod@3.22.4):
+    resolution: {integrity: sha512-5lRVcClMAKlpkdM/XgCs8QFPD5DaHz3pfu1rgw5hObQabZjEILWPV7BSoQNIxWuER8oa94DlSYyVNlCKuWgczw==}
     engines: {node: '>= 16.15.1 <= 20.x'}
     peerDependencies:
       ethers: ^6.6.2

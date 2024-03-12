@@ -5,13 +5,13 @@ import {type PublicClient, getPublicClient, getWalletClient} from '@wagmi/core';
 import {useEffect, useState} from "react";
 
 export function publicClientToProvider(publicClient: PublicClient) {
-    const {chain, transport} = publicClient
+    const {chain} = publicClient
     const network = {
         chainId: chain.id,
         name: chain.name,
         ensAddress: chain.contracts?.ensRegistry?.address,
     }
-    return new BrowserProvider(window.ethereum, network)
+    return new BrowserProvider(window?.ethereum, network)
 }
 
 /** Action to convert a viem Public Client to an ethers.js Provider. */
@@ -22,15 +22,14 @@ export function getEthersProvider({chainId}: { chainId?: number } = {}) {
 
 
 export function walletClientToSigner(walletClient: WalletClient) {
-    const {account, chain, transport} = walletClient
+    const {account, chain} = walletClient
     const network = {
         chainId: chain.id,
         name: chain.name,
         ensAddress: chain.contracts?.ensRegistry?.address,
     }
-    const provider = new BrowserProvider(window.ethereum, network)
-    const signer = provider.getSigner(account.address)
-    return signer
+    const provider = new BrowserProvider(window?.ethereum, network)
+    return provider.getSigner(account.address)
 }
 
 /** Action to convert a viem Wallet Client to an ethers.js Signer. */
@@ -44,6 +43,7 @@ export const useHypercertExchange = () => {
     const chainId = useChainId();
     const [client, setClient] = useState<HypercertExchangeClient | null>(null);
 
+    console.log(client);
     useEffect(() => {
         const getClient = async () => {
             if (chainId) {
