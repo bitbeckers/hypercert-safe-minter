@@ -9,17 +9,16 @@ import {
   SortingState,
   getSortedRowModel,
 } from "@tanstack/react-table";
-import { MintData } from "@/app/page";
 
-export type DataTableProps<MintData> = {
-  data: MintData[];
-  columns: ColumnDef<MintData, any>[];
+export type DataTableProps<T> = {
+  data: T[];
+  columns: ColumnDef<T, any>[];
 };
 
-export function DataTable<MintData>({
+export function DataTable<T>({
   data,
   columns,
-}: DataTableProps<MintData>) {
+}: DataTableProps<T>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const table = useReactTable({
     columns,
