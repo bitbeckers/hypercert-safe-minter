@@ -5,13 +5,13 @@ import {type PublicClient, getPublicClient, getWalletClient} from '@wagmi/core';
 import {useEffect, useState} from "react";
 
 export function publicClientToProvider(publicClient: PublicClient) {
-    const {chain} = publicClient
+    const {chain, transport} = publicClient
     const network = {
         chainId: chain.id,
         name: chain.name,
         ensAddress: chain.contracts?.ensRegistry?.address,
     }
-    return new BrowserProvider(window?.ethereum, network)
+    return new BrowserProvider(transport, network)
 }
 
 /** Action to convert a viem Public Client to an ethers.js Provider. */
@@ -22,13 +22,13 @@ export function getEthersProvider({chainId}: { chainId?: number } = {}) {
 
 
 export function walletClientToSigner(walletClient: WalletClient) {
-    const {account, chain} = walletClient
+    const {account, chain, transport} = walletClient
     const network = {
         chainId: chain.id,
         name: chain.name,
         ensAddress: chain.contracts?.ensRegistry?.address,
     }
-    const provider = new BrowserProvider(window?.ethereum, network)
+    const provider = new BrowserProvider(transport, network)
     return provider.getSigner(account.address)
 }
 
