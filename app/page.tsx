@@ -1,5 +1,5 @@
 "use client";
-import {Box, Button, Flex, Spacer, Text} from "@chakra-ui/react";
+import {Button, Flex, Spacer, Text} from "@chakra-ui/react";
 import {ConnectKitButton} from "connectkit";
 import {useAccount} from "wagmi";
 import {useAutoConnect} from "@/hooks/useAutoConnect";
@@ -19,32 +19,32 @@ export default function Home() {
         setPage(page);
     }
 
-    if (!address) {
-        return (
-            <Flex
-                direction={"column"}
-                justifyContent={"space-between"}
-                p={"2rem"}
-                color={"white"}
-            >
-                <Flex w={"100%"} justifyContent={"space-around"}>
-                    <Box
-                        maxW="sm"
-                        borderWidth="1px"
-                        borderRadius="lg"
-                        p={4}
-                        bgColor={"rgba(49, 74, 62, 0.5)"}
-                    >
-                        <Text>
-                            No account connected. Please connect via app.safe.global.
-                        </Text>
-                    </Box>
-                    <Spacer/>
-                    <ConnectKitButton/>
-                </Flex>
-            </Flex>
-        );
-    }
+    // if (!address) {
+    //     return (
+    //         <Flex
+    //             direction={"column"}
+    //             justifyContent={"space-between"}
+    //             p={"2rem"}
+    //             color={"white"}
+    //         >
+    //             <Flex w={"100%"} justifyContent={"space-around"}>
+    //                 <Box
+    //                     maxW="sm"
+    //                     borderWidth="1px"
+    //                     borderRadius="lg"
+    //                     p={4}
+    //                     bgColor={"rgba(49, 74, 62, 0.5)"}
+    //                 >
+    //                     <Text>
+    //                         No account connected. Please connect via app.safe.global.
+    //                     </Text>
+    //                 </Box>
+    //                 <Spacer/>
+    //                 <ConnectKitButton/>
+    //             </Flex>
+    //         </Flex>
+    //     );
+    // }
 
     return (
         <Flex

@@ -46,10 +46,12 @@ export const useCreateOrder = () => {
         // Sign your maker order
         const signature = await hypercertExchangeClient.signMakerOrder(maker);
 
-        await hypercertExchangeClient.registerOrder({
+        const registerOrderResponse = await hypercertExchangeClient.registerOrder({
             order: maker,
             signature,
         });
+
+        return {maker, isCollectionApproved, isTransferManagerApproved, registerOrderResponse}
     }
 
     return {createOrder};
