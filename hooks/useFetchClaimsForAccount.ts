@@ -6,11 +6,11 @@ export const useFetchClaimsForAccount = () => {
     const {address} = useAccount();
     const {client} = useHypercertClient();
     const [claims, setClaims] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (client && address) {
-            setIsLoading(false);
+            setIsLoading(true);
             const getClaimsForAccount = async () => {
                 const claims = await client.indexer.claimsByOwner(address);
                 if (claims && claims.length > 0)
@@ -19,6 +19,7 @@ export const useFetchClaimsForAccount = () => {
             };
 
             getClaimsForAccount();
+            setIsLoading(false);
         }
     }, [client, address]);
 

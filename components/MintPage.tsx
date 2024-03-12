@@ -10,7 +10,7 @@ import {DateTime} from "luxon";
 
 export type MintData = HypercertMetadata & { cid: string };
 
-const VD_REPORTS_ENDPOINT = "https://directus.vd-dev.org/items/reports";
+const VD_REPORTS_ENDPOINT = "https://directus.vd-dev.org";
 
 
 export const MintPage = () => {
@@ -126,7 +126,6 @@ export const MintPage = () => {
         w={"100%"}
         justifyContent={"center"}
         alignItems={"center"}
-        p={"5rem"}
     >
         <MetadataUploader data={metadata} onUpload={setCids}/>
         {cids && cids.length > 0 && <MintHypercerts data={data}/>}

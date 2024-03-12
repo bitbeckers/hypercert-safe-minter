@@ -1,5 +1,5 @@
 "use client";
-import {Box, Flex, Spacer, Text} from "@chakra-ui/react";
+import {Box, Button, Flex, Spacer, Text} from "@chakra-ui/react";
 import {ConnectKitButton} from "connectkit";
 import {useAccount} from "wagmi";
 import {useAutoConnect} from "@/hooks/useAutoConnect";
@@ -53,33 +53,42 @@ export default function Home() {
             p={"2rem"}
             color={"white"}
         >
-            <Flex w={"100%"} justifyContent={"space-around"}>
-                <Box
-                    maxW="sm"
-                    borderWidth="1px"
-                    borderRadius="lg"
-                    p={4}
-                    bgColor={"rgba(49, 74, 62, 0.5)"}
-                >
-                    <Text>
-                        Very PoC, use at own risk. This is a demo app for the Hypercert SDK
-                        and VoiceDeck
-                    </Text>
-                </Box>
-                <Box>
-                    <Link href={'/'} onClick={() => handlePageSelection("minting")}>
-                        Minting
+            <Flex w={"100%"} justifyContent={"space-around"} pb={4}>
+                <Flex>
+                    <Link href={'/'} onClick={() => handlePageSelection("minting")} pr={4}>
+                        <Button
+                            colorScheme="teal"
+                            size="lg">Minting</Button>
                     </Link>
-                    <Link href={'/'} onClick={() => handlePageSelection("reports")}>
-                        Reports
+                    <Link href={'/'} onClick={() => handlePageSelection("reports")} pr={4}>
+                        <Button colorScheme="teal"
+                                size="lg">Reports</Button>
                     </Link>
-                </Box>
+                </Flex>
+                <Spacer/>
+
+
                 <Spacer/>
                 <ConnectKitButton/>
             </Flex>
+            <Flex
+                borderWidth="1px"
+                borderRadius="lg"
+                bgColor={"rgba(253,253,150,0.75)"}
+                justifyContent={"center"}
+                alignItems={"center"}
+            >
+                <Text p={2} color={"black"}>
+                    Very PoC, use at own risk. This is a demo app for the Hypercert SDK
+                    and VoiceDeck
+                </Text>
+            </Flex>
 
-            {page === "minting" && <MintPage/>}
-            {page === "reports" && <ReportPage/>}
+            <Flex p={2}>
+                {page === "minting" && <MintPage/>}
+                {page === "reports" && <ReportPage/>}
+            </Flex>
+
         </Flex>
     );
 }
