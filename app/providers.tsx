@@ -9,6 +9,7 @@ import {ConnectKitProvider, getDefaultConfig} from "connectkit";
 
 import {SafeConnector} from "wagmi/connectors/safe";
 import SafeProvider from "@safe-global/safe-apps-react-sdk";
+import {MetaMaskConnector} from "@wagmi/connectors/metaMask";
 
 const chains = [sepolia, optimism, celo];
 
@@ -17,6 +18,12 @@ const wagmiConfig = createConfig(
         getDefaultConfig({
             autoConnect: false,
             connectors: [
+                new MetaMaskConnector({
+                    chains,
+                    options: {
+                        debug: false,
+                    },
+                }),
                 new SafeConnector({
                     chains,
                     options: {

@@ -70,6 +70,12 @@ export const ReportPage = () => {
                     ),
                 }),
                 columnHelper.accessor("tokenID", {
+                    header: "Token ID",
+                    cell: (props) => (
+                        <span>{`${props.getValue().toString().slice(0, 10)}...${props.getValue().toString().slice(30)}`}</span>
+                    )
+                }),
+                columnHelper.accessor("tokenID", {
                     header: () => <span>Sale</span>,
                     cell: (props) => (
                         <CreateOrderButton tokenId={props.getValue()}/>
