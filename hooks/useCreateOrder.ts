@@ -82,12 +82,12 @@ export const useCreateOrder = () => {
         console.log('start', maker.startTime);
         console.log('end', maker.endTime);
         console.log('', maker.orderNonce);
-        console.log('', maker.price),
+        console.log('', maker.price);
           console.log('subset', maker.subsetNonce);
         console.log('types', types);
         console.log('domain', domain);
         console.log('safe address', safe.safe.safeAddress);
-        const signature = await safe.sdk.txs.signTypedMessage({types, domain, message: { ...maker, globalNonce: maker.globalNonce.toString(), x: maker. }});
+        const signature = await safe.sdk.txs.signTypedMessage({types, domain, message: { ...maker, globalNonce: maker.globalNonce.toString() }});
         console.log('signature', signature);
 
         const registerOrderResponse = await hypercertExchangeClient.registerOrder({
