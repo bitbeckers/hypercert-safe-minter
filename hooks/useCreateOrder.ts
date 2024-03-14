@@ -75,7 +75,14 @@ export const useCreateOrder = () => {
             ],
         }
 
+        console.log('Creating order');
+        console.log('maker', maker);
+        console.log('maker.signer', maker.signer);
+        console.log('types', types);
+        console.log('domain', domain);
+        console.log('safe address', safe.safe.safeAddress);
         const signature = await safe.sdk.txs.signTypedMessage({types, domain, message: maker});
+        console.log('signature', signature);
 
         const registerOrderResponse = await hypercertExchangeClient.registerOrder({
             order: maker,

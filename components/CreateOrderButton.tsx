@@ -19,6 +19,10 @@ export const CreateOrderButton = ({tokenId}: { tokenId: string }) => {
 
     useEffect(() => {
         const checkApprovals = async () => {
+            console.log("Checking approvals");
+            console.log('hypercertExchange', hypercertExchange?.signer);
+            const signerAddress = await hypercertExchange?.signer?.getAddress();
+            console.log('signer address', signerAddress);
             if (hypercertExchange) {
                 const isTransferManagerApproved = await hypercertExchange.isTransferManagerApproved();
                 setTransferManagerApproved(isTransferManagerApproved);

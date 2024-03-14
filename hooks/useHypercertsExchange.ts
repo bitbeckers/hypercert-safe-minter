@@ -43,7 +43,8 @@ export const useHypercertExchange = () => {
     const chainId = useChainId();
     const [client, setClient] = useState<HypercertExchangeClient | null>(null);
 
-    console.log(client);
+    console.log('client', client);
+    console.log('signer address', client?.signer?.getAddress());
     useEffect(() => {
         const getClient = async () => {
             if (chainId) {
