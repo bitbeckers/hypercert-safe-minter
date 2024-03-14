@@ -93,7 +93,17 @@ export const useCreateOrder = () => {
             price: maker.price.toString()
         };
         console.log(makerToEncode);
-        const signature = await safe.sdk.txs.signTypedMessage({types, domain, message: makerToEncode});
+        const settings = {
+            offChainSigning: true,
+        };
+
+        const currentSettings = await safe.sdk.eth.setSafeSettings([settings]);
+        console.log('currentSettings', currentSettings);
+        const messageHash = await safe.sdk.txs.signTypedMessage({types, domain, message: makerToEncode});
+        console.log('messageHash', messageHash, JSON.stringify(messageHash));
+        //@ts-ignore
+        const signature = await safe.sdk.safe.getOffChainSignature(messageHash.messageHash);
+
         console.log('signature', signature);
 
         const registerOrderResponse = await hypercertExchangeClient.registerOrder({
