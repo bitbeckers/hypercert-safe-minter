@@ -88,7 +88,7 @@ export const useCreateOrder = () => {
         console.log('domain', domain);
         console.log('safe address', safe.safe.safeAddress);
         const makerToEncode = {
-            maker,
+            ...maker,
             globalNonce: maker.globalNonce.toString(),
             price: maker.price.toString()
         };
