@@ -99,7 +99,7 @@ export const useCreateOrder = () => {
 
         const currentSettings = await safe.sdk.eth.setSafeSettings([settings]);
         console.log('currentSettings', currentSettings);
-        const messageHash = await safe.sdk.txs.signTypedMessage({types, domain, message: makerToEncode});
+        const messageHash = await safe.sdk.txs.signTypedMessage({types, domain, message: makerToEncode, primaryType: 'Maker'});
         console.log('messageHash', messageHash, JSON.stringify(messageHash));
         //@ts-ignore
         const signature = await safe.sdk.safe.getOffChainSignature(messageHash.messageHash);
