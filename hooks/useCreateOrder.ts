@@ -2,8 +2,11 @@ import {useHypercertExchange} from "@/hooks/useHypercertsExchange";
 import {waitForTransactionReceipt} from "viem/actions";
 import {parseEther} from "viem";
 import {useWalletClient} from "wagmi";
+import {useSafeAppsSDK} from "@safe-global/safe-apps-react-sdk";
 
 export const useCreateOrder = () => {
+    const safe = useSafeAppsSDK();
+
     const hypercertExchangeClient = useHypercertExchange();
     const {data: client} = useWalletClient();
 
@@ -44,11 +47,39 @@ export const useCreateOrder = () => {
         }
 
         // Sign your maker order
-        const signature = await hypercertExchangeClient.signMakerOrder(maker);
+        // const signature = await hypercertExchangeClient.signMakerOrder(maker);
+
+        const domain = {
+            name: "LooksRareProtocol",
+            version: "2",
+            chainId: 11155111,
+            verifyingContract: "0x4DDe28116255775E6097Aa4edD288355eb74fcf6",
+        }
+        const types = {
+            Maker: [
+                {name: "quoteType", type: "uint8"},
+                {name: "globalNonce", type: "uint256"},
+                {name: "subsetNonce", type: "uint256"},
+                {name: "orderNonce", type: "uint256"},
+                {name: "strategyId", type: "uint256"},
+                {name: "collectionType", type: "uint8"},
+                {name: "collection", type: "address"},
+                {name: "currency", type: "address"},
+                {name: "signer", type: "address"},
+                {name: "startTime", type: "uint256"},
+                {name: "endTime", type: "uint256"},
+                {name: "price", type: "uint256"},
+                {name: "itemIds", type: "uint256[]"},
+                {name: "amounts", type: "uint256[]"},
+                {name: "additionalParameters", type: "bytes"},
+            ],
+        }
+
+        const signature = await safe.sdk.txs.signTypedMessage({types, domain, message: maker});
 
         const registerOrderResponse = await hypercertExchangeClient.registerOrder({
             order: maker,
-            signature,
+            signature: signature.toString(),
         });
 
         return {maker, isCollectionApproved, isTransferManagerApproved, registerOrderResponse}
