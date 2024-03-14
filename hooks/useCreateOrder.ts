@@ -103,8 +103,10 @@ export const useCreateOrder = () => {
         console.log('messageHash', messageHash, JSON.stringify(messageHash));
         //@ts-ignore
         const signature = await safe.sdk.safe.getOffChainSignature(messageHash.messageHash);
+        const isMessageSigned = await safe.sdk.safe.isMessageSigned({types, domain, message: makerToEncode, primaryType: 'Maker'}, signature.toString());
 
         console.log('signature', signature);
+        console.log('isMessageSigned', isMessageSigned);
 
         const registerOrderResponse = await hypercertExchangeClient.registerOrder({
             order: maker,
