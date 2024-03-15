@@ -3,7 +3,7 @@ import {waitForTransactionReceipt} from "viem/actions";
 import {parseEther} from "viem";
 import {useWalletClient} from "wagmi";
 import {useSafeAppsSDK} from "@safe-global/safe-apps-react-sdk";
-import {verifyTypedData} from "ethers";
+import {verifyMessage, verifyTypedData} from "ethers";
 import {utils} from "@hypercerts-org/marketplace-sdk";
 
 export const useCreateOrder = () => {
@@ -121,7 +121,8 @@ export const useCreateOrder = () => {
           makerToEncode,
           signature,
         );
-        console.log('recoveredAddress', recoveredAddress);
+        const recoveredAddressMessageHash = verifyMessage(typedMessageHash, signature);
+        console.log('recoveredAddress', recoveredAddress, recoveredAddressMessageHash);
 
         const registerOrderResponse = await hypercertExchangeClient.registerOrder({
             order: maker,
