@@ -96,7 +96,7 @@ export const useCreateOrder = () => {
         };
         console.log(makerToEncode);
         const settings = {
-            offChainSigning: true,
+            offChainSigning: false,
         };
 
         const currentSettings = await safe.sdk.eth.setSafeSettings([settings]);
