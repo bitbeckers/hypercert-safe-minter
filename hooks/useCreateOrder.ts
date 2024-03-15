@@ -3,6 +3,8 @@ import {waitForTransactionReceipt} from "viem/actions";
 import {parseEther} from "viem";
 import {useWalletClient} from "wagmi";
 import {useSafeAppsSDK} from "@safe-global/safe-apps-react-sdk";
+import {verifyTypedData} from "ethers";
+import {utils} from "@hypercerts-org/marketplace-sdk";
 
 export const useCreateOrder = () => {
     const safe = useSafeAppsSDK();
@@ -105,8 +107,19 @@ export const useCreateOrder = () => {
         const signature = await safe.sdk.safe.getOffChainSignature(messageHash.messageHash);
         const isMessageSigned = await safe.sdk.safe.isMessageSigned({types, domain, message: makerToEncode, primaryType: 'Maker'}, signature.toString());
 
+
         console.log('signature', signature);
         console.log('isMessageSigned', isMessageSigned);
+
+        // Check if recovered address
+        const typedData = hypercertExchangeClient.getTypedDataDomain();
+        const recoveredAddress = verifyTypedData(
+          typedData,
+          utils.makerTypes,
+          makerToEncode,
+          signature,
+        );
+        console.log('recoveredAddress', recoveredAddress);
 
         const registerOrderResponse = await hypercertExchangeClient.registerOrder({
             order: maker,
