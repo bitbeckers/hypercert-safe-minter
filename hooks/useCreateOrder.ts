@@ -5,7 +5,6 @@ import {useSignTypedData, useWalletClient} from "wagmi";
 import {useSafeAppsSDK} from "@safe-global/safe-apps-react-sdk";
 import {verifyMessage, verifyTypedData} from "ethers";
 import {utils} from "@hypercerts-org/marketplace-sdk";
-import {getMakerHash} from "@hypercerts-org/marketplace-sdk/dist/utils/eip712";
 
 export const useCreateOrder = () => {
     const safe = useSafeAppsSDK();
@@ -103,7 +102,7 @@ export const useCreateOrder = () => {
 
         const currentSettings = await safe.sdk.eth.setSafeSettings([settings]);
         console.log('currentSettings', currentSettings);
-        console.log('makerHash', getMakerHash(makerToEncode));
+        console.log('makerHash', utils.getMakerHash(makerToEncode));
         const typedMessage = {types, domain, message: makerToEncode, primaryType: 'Maker'};
         const messageHash = await safe.sdk.txs.signTypedMessage(typedMessage);
         const typedMessageHash = safe.sdk.safe.calculateTypedMessageHash(typedMessage);
