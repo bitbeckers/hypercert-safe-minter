@@ -1,7 +1,7 @@
 import {useHypercertExchange} from "@/hooks/useHypercertsExchange";
 import {waitForTransactionReceipt} from "viem/actions";
 import {parseEther} from "viem";
-import {useWalletClient} from "wagmi";
+import {useSignTypedData, useWalletClient} from "wagmi";
 import {useSafeAppsSDK} from "@safe-global/safe-apps-react-sdk";
 import {verifyMessage, verifyTypedData} from "ethers";
 import {utils} from "@hypercerts-org/marketplace-sdk";
@@ -11,6 +11,7 @@ export const useCreateOrder = () => {
 
     const hypercertExchangeClient = useHypercertExchange();
     const {data: client} = useWalletClient();
+    const { signTypedDataAsync } = useSignTypedData();
 
     const createOrder = async (tokenId: string) => {
         if (!hypercertExchangeClient || !client) return;
@@ -109,6 +110,16 @@ export const useCreateOrder = () => {
         const signature = await safe.sdk.safe.getOffChainSignature(messageHash.messageHash);
         const isMessageSigned = await safe.sdk.safe.isMessageSigned({types, domain, message: makerToEncode, primaryType: 'Maker'}, signature.toString());
 
+        const wagmiSignedData = await signTypedDataAsync({
+            types,
+            domain: {
+                ...domain,
+                verifyingContract: domain.verifyingContract as `0x${string}`
+            },
+            message: makerToEncode,
+            primaryType: 'Maker'
+        });
+        console.log('wagmi signed data', wagmiSignedData);
 
         console.log('signature', signature);
         console.log('isMessageSigned', isMessageSigned);
