@@ -1,12 +1,5 @@
 "use client";
-import {
-  Heading,
-  HStack,
-  Spinner,
-  useToast,
-  Image,
-  Button,
-} from "@chakra-ui/react";
+import { HStack, useToast, Button } from "@chakra-ui/react";
 import { MintingForm, MintingFormValues } from "./MintingForm";
 import { useEffect, useRef, useState } from "react";
 import { exportAsImage } from "@/lib/exportToImage";
@@ -26,7 +19,7 @@ import { useAutoConnect } from "@/hooks/useAutoConnect";
 
 const formValuesToHypercertMetadata = (
   values: MintingFormValues,
-  image: string
+  image: string,
 ): HypercertMetadata => {
   const claimData = {
     work_scope: {
@@ -94,7 +87,7 @@ export const HypercertMinter = ({
   useAutoConnect();
 
   const [previewImageSrc, setPreviewImageSrc] = useState<string | undefined>(
-    undefined
+    undefined,
   );
 
   const syncPreviewImage = async () => {
@@ -165,7 +158,7 @@ export const HypercertMinter = ({
       const transactionHash = await client.mintClaim(
         claimData,
         parseEther("1"),
-        TransferRestrictions.FromCreatorOnly
+        TransferRestrictions.AllowAll,
       );
 
       if (!transactionHash) {
@@ -198,7 +191,7 @@ export const HypercertMinter = ({
         throw new Error("Transaction receipt not found");
       }
       const res = await client.getClaimStoredDataFromTxHash(
-        transactionReceipt.transactionHash
+        transactionReceipt.transactionHash,
       );
 
       claimId = res.data?.claimId;

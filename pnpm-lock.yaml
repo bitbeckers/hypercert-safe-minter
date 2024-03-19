@@ -115,6 +115,9 @@ devDependencies:
   eslint-config-next:
     specifier: 14.0.3
     version: 14.0.3(eslint@8.55.0)(typescript@5.3.2)
+  prettier:
+    specifier: ^3.2.5
+    version: 3.2.5
   typescript:
     specifier: ^5
     version: 5.3.2
@@ -8965,6 +8968,12 @@ packages:
   /prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+    dev: true
+
+  /prettier@3.2.5:
+    resolution: {integrity: sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==}
+    engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   /process-warning@1.0.0:
