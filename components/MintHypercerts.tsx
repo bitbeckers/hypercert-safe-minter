@@ -2,13 +2,9 @@ import { useHypercertClient } from "@/hooks/useHypercertClient";
 import { Button, Flex } from "@chakra-ui/react";
 import { useState } from "react";
 import { encodeFunctionData, parseEther } from "viem";
-import {
-  MetaTransactionData,
-  OperationType,
-} from "@safe-global/safe-core-sdk-types";
 import { HypercertMinterAbi } from "@hypercerts-org/sdk";
-import { useSafeAppsSDK } from "@safe-global/safe-apps-react-sdk";
-import {MintData} from "@/components/MintPage";
+import { MintData } from "@/components/MintPage";
+import { useAccount, useSendTransaction } from "wagmi";
 
 export type MintHypercertProps = {
   data: MintData[];
@@ -17,10 +13,10 @@ export type MintHypercertProps = {
 export function MintHypercerts({ data }: MintHypercertProps) {
   const [isMinting, setIsMinting] = useState(false);
   const { client, chainId } = useHypercertClient();
+  const { address, isConnected } = useAccount();
+  const { sendTransactionAsync } = useSendTransaction();
 
-  const { sdk, connected, safe } = useSafeAppsSDK();
-
-  console.log("Connected: ", connected);
+  console.log("Connected: ", isConnected);
 
   const filterCids = data.map((d) => d.cid).filter((e) => String(e).trim());
 
@@ -30,7 +26,7 @@ export function MintHypercerts({ data }: MintHypercertProps) {
     return encodeFunctionData({
       abi: HypercertMinterAbi,
       functionName: "mintClaim",
-      args: [safe.safeAddress, parseEther("1"), metadata, 0],
+      args: [address, parseEther("1"), metadata, 0],
     });
   };
 
@@ -50,23 +46,17 @@ export function MintHypercerts({ data }: MintHypercertProps) {
       return;
     }
 
-    const operation = OperationType.Call;
-    const value = "0";
+    const value = 0n;
 
-    const transactions = filterCids.map((cid) => {
-      const data: MetaTransactionData = {
-        to,
-        operation,
-        value,
-        data: encodeMintClaim({ metadata: cid }),
-      };
-
-      return data;
-    });
-
-    console.log("TXS: ", transactions);
-
-    const res = await sdk.txs.send({ txs: transactions });
+    const res = await Promise.all([
+      ...filterCids.map((cid) => {
+        return sendTransactionAsync({
+          to,
+          value,
+          data: encodeMintClaim({ metadata: cid }),
+        });
+      }),
+    ]);
 
     console.log("Submitted txs: ", res);
     setIsMinting(false);
