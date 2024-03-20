@@ -15,8 +15,8 @@ export const useCreateOrder = () => {
 
     const { maker, isCollectionApproved, isTransferManagerApproved } =
       await hypercertExchangeClient.createFractionalSaleMakerAsk({
-        startTime: Math.floor(new Date(0).getTime() / 1000), // Use it to create an order that will be valid in the future (Optional, Default to now)
-        endTime: Math.floor(new Date(0).getTime() / 1000) + 86400, // If you use a timestamp in ms, the function will revert
+        startTime: Date.now() / 1000, // Use it to create an order that will be valid in the future (Optional, Default to now)
+        endTime: Date.now() / 1000 + 365 * 24 * 60 * 60, // If you use a timestamp in ms, the function will revert
         price: parseEther("1"), // Be careful to use a price in wei, this example is for 1 ETH
         itemIds: [tokenId], // Token id of the NFT(s) you want to sell, add several ids to create a bundle
         minUnitAmount: 10, // Minimum amount of units to sell per sale
