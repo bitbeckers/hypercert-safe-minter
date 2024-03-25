@@ -23,7 +23,7 @@ export const useCreateOrder = () => {
         maxUnitAmount: 1000, // Maximum amount of units to sell per sale
         minUnitsToKeep: 0, // Minimum amount of units to keep after the sale
         sellLeftoverFraction: true, // If you want to sell the leftover fraction
-        currency: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9", // Optional, address of the currency used for the sale. Defaults to WETH for now (0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9).
+        currency: "0x0000000000000000000000000000000000000000", // Optional, address of the currency used for the sale. Defaults to WETH for now (0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9).
       });
 
     // Grant the TransferManager the right the transfer assets on behalf od the LooksRareProtocol
