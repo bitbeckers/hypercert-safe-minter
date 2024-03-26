@@ -10,7 +10,7 @@ import { DateTime } from "luxon";
 
 export type MintData = HypercertMetadata & { cid: string };
 
-const VD_REPORTS_ENDPOINT = "https://directus.voicedeck.org";
+export const VD_REPORTS_ENDPOINT = "https://directus.voicedeck.org";
 
 export const MintPage = () => {
   const [metadata, setMetadata] = useState<HypercertMetadata[]>([]);
