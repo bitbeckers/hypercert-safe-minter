@@ -9,8 +9,9 @@ import {
 import { createColumnHelper } from "@tanstack/react-table";
 import { useFetchFractionsForAccount } from "@/hooks/useFetchFractionsForAccount";
 import { CreateOrderButton } from "@/components/CreateOrderButton";
+import { UpdateCMSButton } from "@/components/UpdateCMSButton";
 
-type ClaimData = {
+export type ClaimData = {
   id: string;
   cid: string;
   tokenID: string;
@@ -112,6 +113,7 @@ export const ReportPage = () => {
       alignItems={"center"}
       p={"5rem"}
     >
+      <UpdateCMSButton claims={data} />
       <DataTable columns={columns} data={data} />
     </Flex>
   );
