@@ -10,7 +10,8 @@ export const UpdateCMSButton = ({ claims }: { claims: ClaimData[] }) => {
     const item_id_array: string[] = [];
     let cmsReports: Report[] = [];
 
-    const response = await fetchReports(VD_REPORTS_ENDPOINT);
+    let accessToken = process.env.NEXT_CMS_ACCESS_TOKEN as string;
+    const response = await fetchReports(VD_REPORTS_ENDPOINT, accessToken);
     if (response && response.data.length > 0) {
       cmsReports = response.data;
     }

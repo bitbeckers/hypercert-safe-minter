@@ -38,7 +38,8 @@ export const MintPage = () => {
   useEffect(() => {
     const fetchVoicedeckReports = async () => {
       console.log("Fetching reports");
-      const response = await fetchReports(VD_REPORTS_ENDPOINT);
+      let accessToken = process.env.NEXT_CMS_ACCESS_TOKEN as string;
+      const response = await fetchReports(VD_REPORTS_ENDPOINT, accessToken);
 
       console.log(response);
 
